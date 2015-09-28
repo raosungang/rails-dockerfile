@@ -50,5 +50,5 @@ ENV RAILS_ENV=prodcution
 EXPOSE 3000:3000
 
 
-ENTRYPOINT /home/app/docker-entrypoint.sh
+ENTRYPOINT  /home/app/docker-entrypoint.sh && /bin/bash --login
 # docker run -t 
