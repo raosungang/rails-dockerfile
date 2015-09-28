@@ -16,8 +16,7 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get install -y curl wget ca-c
 
 RUN apt-get install -y gawk g++ libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 # Finish installing remaining dependencies
-RUN apt-get install -y libssl-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev bison openssl make git libpq-dev libsqlite3-dev nodejs
-RUN apt-get clean
+RUN apt-get install -y libssl-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev bison openssl make git libpq-dev libsqlite3-dev nodejs && apt-get clean
 RUN rm -rf /var/cache/apt/* /tmp/*
 # Force sudoers to not being asked the password
 RUN echo %sudo    ALL=NOPASSWD: ALL >> /etc/sudoers
@@ -31,13 +30,13 @@ WORKDIR /home/app
 # rvm install
 RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \curl -sSL https://get.rvm.io | bash -s stable 
 # ruby install
-RUN /bin/bash -l -c "rvm requirements"
-RUN /bin/bash -l -c "rvm install 2.2.2 && rvm use 2.2.2 --default"
+RUN /bin/bash -l -c "rvm requirements && rvm install 2.2.2 && rvm use 2.2.2 --default"
 
 # Change rubygems sources
-RUN /bin/bash -l -c "gem sources --remove https://rubygems.org && gem sources -a https://ruby.taobao.org/"
+RUN /bin/bash -l -c "gem sources -a https://ruby.taobao.org/ && gem sources --remove https://rubygems.org/"
 
 # install bundeler
+RUN /bin/bash -l -c "gem sources -l"
 RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 RUN rm -rf /home/app/.rvm/src/*
 
