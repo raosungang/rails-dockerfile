@@ -1,12 +1,15 @@
-git clone --depth 1 https://github.com/raosungang/rails101s.git app
+git clone --depth 1 https://github.com/raosungang/demo_app.git app
 cd app
-bundle install
-bundle exec rake db:create 
-  if [[ $? !=0 ]]; then
+if [ -f /home/app/.rvm/scripts/rvm ];then
+   /home/app/.rvm/scripts/rvm
+fi
+
+/bin/bash -l -c 'bundle install'
+/bin/bash -l -c 'rake db:migrate' 
+if [ $? != 0 ]; then
      echo
      echo "== Failed to migrate. Runing setup first."
      echo
-     bundle exec rake db:setup && \
-     bundle exec rake db:migrate
+    /bin/bash -l -c 'rake db:setup && rake db:migrate'
   fi
-bundle exec rails server
+ /bin/bash -l -c ' rails server'

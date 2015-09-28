@@ -14,9 +14,11 @@ ADD ./sources.list /etc/apt/sources.list
 # Install base packages
 RUN apt-get update -y && apt-get upgrade -y && apt-get install -y curl wget ca-certificates build-essential autoconf python-software-properties libyaml-dev
 
+# RUN apt-get update -y && apt-get install -y  mysql-client postgresql-client sqlite3 --no-install-recommends && rm -rf /var/lib/apt/lists/*
+
 RUN apt-get install -y gawk g++ libreadline6-dev libyaml-dev libsqlite3-dev sqlite3 autoconf libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev
 # Finish installing remaining dependencies
-RUN apt-get install -y libssl-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev bison openssl make git libpq-dev libsqlite3-dev nodejs && apt-get clean
+RUN apt-get install -y libssl-dev libmysqlclient-dev libreadline6 libreadline6-dev zlib1g zlib1g-dev bison openssl make git libpq-dev libsqlite3-dev nodejs && apt-get clean
 RUN rm -rf /var/cache/apt/* /tmp/*
 # Force sudoers to not being asked the password
 RUN echo %sudo    ALL=NOPASSWD: ALL >> /etc/sudoers
@@ -41,6 +43,7 @@ RUN /bin/bash -l -c "gem install bundler --no-ri --no-rdoc"
 RUN rm -rf /home/app/.rvm/src/*
 
 ADD docker-entrypoint.sh /home/app/docker-entrypoint.sh
+RUN sudo chmod +x /home/app/docker-entrypoint.sh
 ADD setup.sh /home/app/setup.sh
 ENV RAILS_ENV=prodcution
 
