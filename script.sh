@@ -5,9 +5,8 @@ db() {
 }
 
 app(){
-  docker run -p 3000:3000 --link app_db:postgres -d -t jeff/app
+  docker run -p 3000:3000 --link app_db:postgres --name app jeff/app
 }
-
 
 action=$1
 
