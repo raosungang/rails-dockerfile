@@ -1,7 +1,7 @@
 #!/bin/bash
-git clone --depth 1 https://github.com/raosungang/demo_app.git app
+git clone --depth 1 https://github.com/raosungang/rails101s.git app
 cd app
-source "~/.rvm/scripts/rvm"
+source ~/.bash_profile
 bundle install
 bundle exec rake db:migrate
 if [ $? != 0 ]; then
